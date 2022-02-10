@@ -11,6 +11,7 @@ class ShowService extends StatefulWidget {
 
 class _ShowServiceState extends State<ShowService> {
   late List<CardData> _cardList;
+  late String address='10 Hanover Square, Manhattan, NY';
 
   @override
   void initState() {
@@ -40,7 +41,7 @@ class _ShowServiceState extends State<ShowService> {
                     child: Icon(Icons.map_outlined)),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text('10 Hanover Square, Manhattan, NY'),
+                  child: Text(address),
                 )
               ],
             ),
