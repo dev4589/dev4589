@@ -11,7 +11,7 @@ class ShowService extends StatefulWidget {
 
 class _ShowServiceState extends State<ShowService> {
   late List<CardData> _cardList;
-  late String address='10 Hanover Square, Manhattan, NY';
+  late String address = '10 Hanover Square, Manhattan, NY';
 
   @override
   void initState() {
@@ -26,29 +26,37 @@ class _ShowServiceState extends State<ShowService> {
         backgroundColor: Colors.white,
         body: ListView(
           children: [
-            Row(
+            Stack(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.only(top: 15,left: 15,right: 15,bottom: 10),
                   child: Image.asset(
                     'assets/myImages/priv_logo.png',
                     height: 45,
                     width: 80,
                   ),
                 ),
-                Padding(
-                    padding: EdgeInsets.only(left: (size.width / 2) - 250),
-                    child: Icon(Icons.map_outlined)),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(address),
-                )
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(top: 25),
+                      child: Icon(Icons.map_outlined),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 25),
+                      child: Text(address,
+                          style: GoogleFonts.roboto(
+                              fontWeight: FontWeight.w300, fontSize: 17)),
+                    )
+                  ],
+                ),
               ],
             ),
             Divider(color: Colors.grey.shade700),
             Center(
               child: Padding(
-                padding: EdgeInsets.only(top: 30, bottom: 15),
+                padding: const EdgeInsets.only(top: 30, bottom: 15),
                 child: Text(
                   'SELECT YOUR SERVICE',
                   style: GoogleFonts.roboto(
@@ -57,14 +65,19 @@ class _ShowServiceState extends State<ShowService> {
               ),
             ),
             Center(
-              child: Text(
-                "Add as many services as you like! Go ahead, treat yourself. You've earned it!",
-                style: GoogleFonts.roboto(
-                    fontWeight: FontWeight.w300, fontSize: 15),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: Text(
+                  "Add as many services as you like! Go ahead, treat yourself. You've earned it!",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.roboto(
+                      fontWeight: FontWeight.w400, fontSize: 15),
+                ),
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: size.width / 7,right: size.width / 7,top: 40),
+              padding: EdgeInsets.only(
+                  left: size.width / 7, right: size.width / 7, top: 40),
               child: ResponsiveGridRow(
                 children: [
                   for (int i = 0; i < _cardList.length; i++)
@@ -87,16 +100,16 @@ class _ShowServiceState extends State<ShowService> {
 
   List<CardData> getCardData() {
     final List<CardData> cardDataList = [
-      CardData('Ear_piercing.jpg'),
-      CardData('facial.png'),
-      CardData('fitness.jpg'),
-      CardData('hair.jpg'),
-      CardData('makeup.jpg'),
-      CardData('massage.jpg'),
-      CardData('mensg.jpg'),
-      CardData('nails.jpg'),
-      CardData('tan.png'),
-      CardData('Weddings.jpg')
+      CardData('Ear Piercing','Ear_piercing.jpg'),
+      CardData('Facial','facial.png'),
+      CardData('Facial','fitness.jpg'),
+      CardData('Hair','hair.jpg'),
+      CardData('Makeup','makeup.jpg'),
+      CardData('Massage','massage.jpg'),
+      CardData("Men's Grooming","mensg.jpg"),
+      CardData('Nails','nails.jpg'),
+      CardData('Tan','tan.png'),
+      CardData('Wedding','Weddings.jpg')
     ];
     return cardDataList;
   }
@@ -116,20 +129,6 @@ class _GenerateCardsState extends State<GenerateCards> {
 
   @override
   Widget build(BuildContext context) {
-    // return Card(
-    //   child: InkWell(
-    //     onTap: () => null,
-    //     onHover: (value) {
-    //       isHovering = value;
-    //     },
-    //     child: Image.asset(
-    //       'assets/myImages/' + widget.imageName,
-    //       fit: BoxFit.fill,
-    //     ),
-    //   ),
-    //   clipBehavior: Clip.antiAliasWithSaveLayer,
-    //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-    // );
     return InkWell(
       onTap: () => null,
       onHover: (hovering) {
@@ -137,13 +136,12 @@ class _GenerateCardsState extends State<GenerateCards> {
       },
       child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          curve: Curves.linear,
-          padding: EdgeInsets.all(isHovering ? 8 : 10),
-          decoration: BoxDecoration(
+          curve: Curves.fastOutSlowIn,
+          padding: EdgeInsets.all(isHovering ? 7 : 11),
+          decoration: const BoxDecoration(
             color: Colors.white,
           ),
           clipBehavior: Clip.antiAliasWithSaveLayer,
-
           child: Card(
             child: Image.asset(
               'assets/myImages/' + widget.imageName,
@@ -156,7 +154,7 @@ class _GenerateCardsState extends State<GenerateCards> {
 }
 
 class CardData {
-  CardData(this.imageAdd);
-
+  CardData(this.category,this.imageAdd);
+  final String category;
   final String imageAdd;
 }

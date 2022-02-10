@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:saloon/screen/homepage.dart';
+import 'package:saloon/screen/show_services.dart';
+import 'package:saloon/screen/signup_page.dart';
 import 'package:saloon/screen/splashscreen.dart';
 import 'package:saloon/screen/view_service.dart';
+import 'screen/service_details.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +39,7 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.secularOneTextTheme(),
         ),
         debugShowCheckedModeBanner: false,
-        home: ViewService());
+        home: SignUp()
+    );
   }
 }
