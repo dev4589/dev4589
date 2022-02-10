@@ -38,13 +38,16 @@ class _addressState extends State<address> {
                 ),
               ),
               Center(
-                child: Text(
-                    "(You can Priv a service anywhere - home, office, gym, beach. Wherever\n your on-the-go lifestyle takes you, we can meet you there.)",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.roboto(
-                      fontWeight: FontWeight.w300,
-                      // textStyle: ,
-                    )),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                      "(You can Priv a service anywhere - home, office, gym, beach. Wherever\n your on-the-go lifestyle takes you, we can meet you there.)",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.roboto(
+                        fontWeight: FontWeight.w300,
+                        // textStyle: ,
+                      )),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 30.0),
