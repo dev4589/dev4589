@@ -124,6 +124,7 @@ class _ViewServiceState extends State<ViewService> {
                     crossAxisSpacing: 10,
                     shrinkWrap: true,
                     children: [
+
                       card_service(
                           'assets/images/ear_piercing.jpg', 'Ear Piercing'),
                       card_service('assets/images/facial.jpg', 'Facial'),
