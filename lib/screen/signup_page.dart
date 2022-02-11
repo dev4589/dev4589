@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_grid/responsive_grid.dart';
+import 'package:saloon/screen/loginpage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SignUp extends StatefulWidget {
@@ -69,7 +70,8 @@ class _SignUpState extends State<SignUp> {
                                 decoration: InputDecoration(
                                     isDense: true,
                                     focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Colors.black),
+                                        borderSide:
+                                            BorderSide(color: Colors.black),
                                         borderRadius: BorderRadius.zero),
                                     enabledBorder: OutlineInputBorder(
                                         borderSide:
@@ -100,7 +102,8 @@ class _SignUpState extends State<SignUp> {
                                         borderRadius: BorderRadius.zero),
                                     isDense: true,
                                     focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: Colors.black),
+                                        borderSide:
+                                            BorderSide(color: Colors.black),
                                         borderRadius: BorderRadius.zero),
                                     contentPadding: EdgeInsets.symmetric(
                                         vertical: 12, horizontal: 10),
@@ -185,7 +188,7 @@ class _SignUpState extends State<SignUp> {
                         ],
                       ),
                       Padding(
-                        padding:  EdgeInsets.all(8),
+                        padding: EdgeInsets.all(8),
                         child: TextField(
                           cursorColor: Colors.black,
                           cursorWidth: 1.5,
@@ -207,7 +210,7 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                       Padding(
-                        padding:  EdgeInsets.all(8),
+                        padding: EdgeInsets.all(8),
                         child: TextField(
                           obscureText: true,
                           cursorColor: Colors.black,
@@ -225,13 +228,11 @@ class _SignUpState extends State<SignUp> {
                               hintStyle: hintText,
                               hintText: 'CONFIRM PASSWORD',
                               border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.zero)
-                                    ),
+                                  borderRadius: BorderRadius.zero)),
                         ),
                       ),
                       Padding(
-                        padding:  EdgeInsets.all(8.0),
+                        padding: EdgeInsets.all(8.0),
                         child: RichText(
                           text: TextSpan(children: [
                             TextSpan(
@@ -267,7 +268,7 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                       Padding(
-                        padding:  EdgeInsets.all(8.0),
+                        padding: EdgeInsets.all(8.0),
                         child: SizedBox(
                           height: 45,
                           child: TextButton(
@@ -287,7 +288,7 @@ class _SignUpState extends State<SignUp> {
                                     MaterialStateProperty.resolveWith(
                                         (states) => states
                                                 .contains(MaterialState.hovered)
-                                            ? Colors.pinkAccent
+                                            ? Color.fromARGB(255, 145, 120, 150)
                                             : Colors.black),
                                 shape: MaterialStateProperty.all<
                                         RoundedRectangleBorder>(
@@ -299,17 +300,22 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                       Padding(
-                        padding:  EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 20),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 20),
                         child: RichText(
                           text: TextSpan(children: [
                             TextSpan(text: 'ALREADY HAVE AN ACCOUNT?  '),
                             TextSpan(
-                                text: 'SIGN IN',
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    launch('https://www.google.com');
-                                  }),
+                              text: 'SIGN IN',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => loginPage1()));
+                                },
+                            ),
                           ]),
                         ),
                       ),

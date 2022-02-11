@@ -2,6 +2,7 @@
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:saloon/screen/signup_page.dart';
 
 class loginPage1 extends StatefulWidget {
   const loginPage1({Key? key}) : super(key: key);
@@ -11,12 +12,13 @@ class loginPage1 extends StatefulWidget {
 }
 
 class _loginPage1State extends State<loginPage1> {
+  late bool submitHover = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
-          child:  Column(
+          child: Column(
             children: [
               Divider(
                 height: MediaQuery.of(context).size.height / 5,
@@ -48,6 +50,9 @@ class _loginPage1State extends State<loginPage1> {
                         child: SizedBox(
                           height: 50,
                           child: TextButton(
+                            onHover: (value) {
+                              submitHover = value;
+                            },
                             style: ButtonStyle(
                                 shape: MaterialStateProperty.all<
                                         RoundedRectangleBorder>(
@@ -55,8 +60,11 @@ class _loginPage1State extends State<loginPage1> {
                                         borderRadius:
                                             BorderRadius.circular(0.0))),
                                 backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.black)),
+                                    MaterialStateProperty.resolveWith(
+                                        (states) => states
+                                                .contains(MaterialState.hovered)
+                                            ? Color.fromARGB(255, 145, 120, 150)
+                                            : Colors.black)),
                             child: Center(
                               child: const Text(
                                 "LOGIN WITH FACEBOOK",
@@ -89,6 +97,13 @@ class _loginPage1State extends State<loginPage1> {
                       TextField(
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
+                            isDense: true,
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.zero),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.zero),
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(0.0)))),
@@ -111,6 +126,13 @@ class _loginPage1State extends State<loginPage1> {
                       TextField(
                         obscureText: true,
                         decoration: InputDecoration(
+                            isDense: true,
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.zero),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black),
+                                borderRadius: BorderRadius.zero),
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(0.0)))),
@@ -138,6 +160,9 @@ class _loginPage1State extends State<loginPage1> {
                         child: SizedBox(
                           height: 50,
                           child: TextButton(
+                            onHover: (value) {
+                              submitHover = value;
+                            },
                             style: ButtonStyle(
                                 shape: MaterialStateProperty.all<
                                         RoundedRectangleBorder>(
@@ -145,8 +170,11 @@ class _loginPage1State extends State<loginPage1> {
                                         borderRadius:
                                             BorderRadius.circular(0.0))),
                                 backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.black)),
+                                    MaterialStateProperty.resolveWith(
+                                        (states) => states
+                                                .contains(MaterialState.hovered)
+                                            ? Color.fromARGB(255, 145, 120, 150)
+                                            : Colors.black)),
                             child: Center(
                               child: const Text(
                                 "SIGN IN",
@@ -172,7 +200,12 @@ class _loginPage1State extends State<loginPage1> {
                           Padding(
                             padding: const EdgeInsets.only(left: 8.0),
                             child: InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SignUp()));
+                              },
                               child: const Text(
                                 "SIGN UP",
                                 style: TextStyle(
