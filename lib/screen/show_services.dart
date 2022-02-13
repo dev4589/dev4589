@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_grid/responsive_grid.dart';
+import 'package:saloon/screen/service_details.dart';
 
 class ShowService extends StatefulWidget {
   const ShowService({Key? key}) : super(key: key);
@@ -89,6 +90,7 @@ class _ShowServiceState extends State<ShowService> {
                       xs: 6,
                       child: GenerateCards(
                         imageName: _cardList[i].imageAdd.toString(),
+                        cateNo: _cardList[i].cateNo,
                       ),
                     ),
                 ],
@@ -100,16 +102,16 @@ class _ShowServiceState extends State<ShowService> {
 
   List<CardData> getCardData() {
     final List<CardData> cardDataList = [
-      CardData('Ear Piercing','Ear_piercing.jpg'),
-      CardData('Facial','facial.png'),
-      CardData('Facial','fitness.jpg'),
-      CardData('Hair','hair.jpg'),
-      CardData('Makeup','makeup.jpg'),
-      CardData('Massage','massage.jpg'),
-      CardData("Men's Grooming","mensg.jpg"),
-      CardData('Nails','nails.jpg'),
-      CardData('Tan','tan.png'),
-      CardData('Wedding','Weddings.jpg')
+      CardData(0,'Ear_piercing.jpg'),
+      CardData(1,'facial.png'),
+      CardData(2,'fitness.jpg'),
+      CardData(3,'hair.jpg'),
+      CardData(4,'makeup.jpg'),
+      CardData(5,'massage.jpg'),
+      CardData(6,"mensg.jpg"),
+      CardData(7,'nails.jpg'),
+      CardData(8,'tan.png'),
+      CardData(9,'Weddings.jpg')
     ];
     return cardDataList;
   }
@@ -117,8 +119,9 @@ class _ShowServiceState extends State<ShowService> {
 
 class GenerateCards extends StatefulWidget {
   final String imageName;
+  final int cateNo;
 
-  const GenerateCards({Key? key, required this.imageName}) : super(key: key);
+  const GenerateCards({Key? key,required this.cateNo, required this.imageName}) : super(key: key);
 
   @override
   _GenerateCardsState createState() => _GenerateCardsState();
@@ -130,7 +133,9 @@ class _GenerateCardsState extends State<GenerateCards> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => null,
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> ShowServiceDetails(cateNo: widget.cateNo)));
+      },
       onHover: (hovering) {
         setState(() => isHovering = hovering);
       },
@@ -154,7 +159,7 @@ class _GenerateCardsState extends State<GenerateCards> {
 }
 
 class CardData {
-  CardData(this.category,this.imageAdd);
-  final String category;
+  CardData(this.cateNo,this.imageAdd);
+  final int cateNo;
   final String imageAdd;
 }

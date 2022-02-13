@@ -7,6 +7,7 @@ import 'package:saloon/screen/show_services.dart';
 import 'package:saloon/screen/signup_page.dart';
 import 'package:saloon/screen/splashscreen.dart';
 import 'package:saloon/screen/view_service.dart';
+import 'screen/rough.dart';
 import 'screen/service_details.dart';
 
 void main() async {
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
         builder: (context, widget) => ResponsiveWrapper.builder(
             BouncingScrollWrapper.builder(context, widget!),
             // maxWidth: 1200,
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.secularOneTextTheme(),
         ),
         debugShowCheckedModeBanner: false,
-        home: SignUp()
+        home: ShowServiceDetails(cateNo: 2),
     );
   }
 }
