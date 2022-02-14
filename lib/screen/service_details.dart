@@ -52,13 +52,14 @@ class _ShowServiceDetailsState extends State<ShowServiceDetails>
             sm: 0,
             child: Stack(children: [
               Container(
-                width: size.width * (size.width <= 1200 ? 0 : .20),
+                width: size.width * (size.width <= 1100 ? 0 : .20),
                 height: size.height,
                 alignment: Alignment.centerLeft,
                 child: Image.asset(
                   'assets/myImages/' + _cateList[index].cateImage,
                   height: size.height,
-                  fit: BoxFit.fill,
+                  width: 400,
+                  fit: BoxFit.cover,
                 ),
               ),
             ]),
@@ -74,7 +75,7 @@ class _ShowServiceDetailsState extends State<ShowServiceDetails>
                       Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(top: 20.0),
+                            padding: const EdgeInsets.only(top: 20.0,left: 100),
                             child: IconButton(
                               onPressed: () {
                                 Navigator.pop(context);
@@ -186,72 +187,3 @@ class CateData {
   final List subCateList;
 }
 
-// ListView(
-// children: [Center(
-// child: SizedBox(
-// width: size.width / 2,
-// height: size.height,
-// child: TabBarView(
-// controller: _tabController,
-// children: [
-// for (int i = 0; i < myTabNo.length; i++)
-// DetailsCard(),
-// ],
-// ),
-// ),
-// ),]
-// ),
-
-// TabBar(
-// padding: const EdgeInsets.all(12),
-// isScrollable: true,
-// unselectedLabelColor: Colors.grey.shade500,
-// labelColor: Colors.white,
-// controller: _tabController,
-// tabs: myTabNo,
-// indicator: ShapeDecoration(
-// shape: RoundedRectangleBorder(
-// borderRadius: BorderRadius.all(radius)),
-// color: Colors.black87),
-// ),
-
-// Padding(
-// padding: const EdgeInsets.all(8.0),
-// child: Center(
-// child: Text(
-// _cateList[index].cateName.toUpperCase() +
-// ' services'.toUpperCase(),
-// style: GoogleFonts.roboto(
-// letterSpacing: 2,
-// fontWeight: FontWeight.w700,
-// fontSize: 30),
-// )),
-// ),
-
-// Center(
-// child: Text(
-// 'Add as many services as you\'d like.',
-// style: GoogleFonts.roboto(
-// fontWeight: FontWeight.w300, fontSize: 12),
-// )),
-
-// IconButton(
-// onPressed: () {
-// Navigator.pop(context);
-// },
-// hoverColor: Colors.white,
-// icon: const Icon(
-// Icons.arrow_back_ios_outlined,
-// size: 40,
-// ),
-// ),
-
-// Container(
-// width: size.width*(size.width <= 1200 ? 0 : .25),
-// height: size.height,
-// alignment: Alignment.centerLeft,
-// child: Image.asset(
-// 'assets/myImages/' + _cateList[index].cateImage,
-// height: size.height,
-// ),
-// ),]
