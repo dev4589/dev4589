@@ -1,23 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 
 class DetailsCard extends StatefulWidget {
-  const DetailsCard({Key? key}) : super(key: key);
+  final String subCateTitle;
+  const DetailsCard({Key? key, required this.subCateTitle}) : super(key: key);
 
   @override
   _DetailsCardState createState() => _DetailsCardState();
 }
 
 class _DetailsCardState extends State<DetailsCard> {
-  late bool isHover = false;
-  late String subCateTitle = 'EAR PIERCING';
-  late String cardTitle = 'STAINLESS STEEL 3MM CUBIC ZIRCONIA';
-  late String cardText =
-      'Includes 2 piercing earrings. Your appointment will start with a consultation and instructions to care for your newly pierced ears. Next, your professional will cleanse your ears, mark the ears with your desired placement and proceed with piercing your ears. Aftercare product will be provided to you as well as the aftercare instructions to ensure a healthy healing. PRIV it and you will walk away with a stylish new look!';
-  late int price = 75;
+  late List<bool> isHover;
   late bool submitHover = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    isHover = List<bool>.generate(serviceData.length, (index) => false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,98 +32,120 @@ class _DetailsCardState extends State<DetailsCard> {
             xl: 12,
             md: 12,
             xs: 12,
-            child: Text(
-              subCateTitle,
-              style: GoogleFonts.roboto(
-                  letterSpacing: 2, fontWeight: FontWeight.w400, fontSize: 25),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Text(
+                widget.subCateTitle,
+                style: GoogleFonts.roboto(
+                    letterSpacing: 2,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 25),
+              ),
             ),
           ),
-          for(int i=0;i<8;i++)
-          ResponsiveGridCol(
-              xl: 4,
-              lg: 4,
-              md: 4,
-              sm: 6,
-              xs: 12,
-              child: InkWell(
-                onTap: () {
-                  showDialog(
-                    barrierDismissible: true,
-                    context: context,
-                    builder: (BuildContext context) =>
-                        _buildPopupDialog(context),
-                  );
-                },
-                onHover: (hovering) {
-                  setState(() => isHover = hovering);
-                },
-                child: SizedBox(
-                  height: 250,
-                  width: 200,
-                  child: Card(
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 200),
-                      curve: Curves.ease,
-                      padding: EdgeInsets.all(isHover ? 8 : 7),
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                      ),
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          children: [
-                            Text(
-                              cardTitle,
-                              style: GoogleFonts.roboto(
-                                  letterSpacing: 1,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 15),
-                              textAlign: TextAlign.start,
-                            ),
-                            Spacer(),
-                            Text(cardText,
-                                style: GoogleFonts.roboto(
-                                    letterSpacing: 1,
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: 15),
-                                maxLines: 3,
-                                textAlign: TextAlign.start,
-                                overflow: TextOverflow.ellipsis),
-                            Spacer(flex: 2),
-                            Row(
+          for (int i = 0; i < serviceData.length; i++)
+            ResponsiveGridCol(
+                xl: 4,
+                lg: 4,
+                md: 4,
+                sm: 6,
+                xs: 12,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: InkWell(
+                    hoverColor: Colors.white,
+                    onTap: () {
+                      showDialog(
+                        barrierDismissible: true,
+                        context: context,
+                        builder: (BuildContext context) =>
+                            _buildPopupDialog(context),
+                      );
+                    },
+                    onHover: (hovering) {
+                      setState(() => isHover[i] = hovering);
+                    },
+                    child: SizedBox(
+                      height: 250,
+                      width: 200,
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        child: AnimatedContainer(
+                          duration: Duration(milliseconds: 200),
+                          curve: Curves.ease,
+                          padding: EdgeInsets.all(isHover[i] ? 9 : 7),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                  color:
+                                      isHover[i] ? Colors.black : Colors.grey),
+                              borderRadius: BorderRadius.circular(10)),
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Column(
                               children: [
-                                // Padding(padding: EdgeInsets.symmetric(vertical: 20)),
-                                Text('\$' + price.toString()),
+                                Text(
+                                  serviceData[i].cardTitle,
+                                  style: GoogleFonts.roboto(
+                                      letterSpacing: 1,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 15),
+                                  textAlign: TextAlign.start,
+                                ),
                                 Spacer(),
-                                TextButton(
-                                    onHover: (value) {
-                                      submitHover = value;
-                                    },
-                                    style: ButtonStyle(
-                                        foregroundColor:
-                                            MaterialStateProperty.resolveWith(
-                                                (states) => states.contains(
-                                                        MaterialState.hovered)
-                                                    ? Colors.white
-                                                    : Colors.black),
-                                        backgroundColor:
-                                            MaterialStateProperty.resolveWith(
-                                                (states) => states.contains(
-                                                        MaterialState.hovered)
-                                                    ? Colors.black
-                                                    : Colors.white)),
-                                    onPressed: () {},
-                                    child: Text("ADD")),
+                                Text(serviceData[i].cardText,
+                                    style: GoogleFonts.roboto(
+                                        letterSpacing: 1,
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 15),
+                                    maxLines: 3,
+                                    textAlign: TextAlign.start,
+                                    overflow: TextOverflow.ellipsis),
+                                Spacer(flex: 2),
+                                Row(
+                                  children: [
+                                    // Padding(padding: EdgeInsets.symmetric(vertical: 20)),
+                                    Text(
+                                      '\$' + serviceData[i].price.toString(),
+                                      style: GoogleFonts.roboto(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 15),
+                                    ),
+                                    Spacer(),
+                                    TextButton(
+                                        onHover: (value) {
+                                          submitHover = value;
+                                        },
+                                        style: ButtonStyle(
+                                            foregroundColor:
+                                                MaterialStateProperty.resolveWith(
+                                                    (states) => states.contains(
+                                                            MaterialState
+                                                                .hovered)
+                                                        ? Colors.white
+                                                        : Colors.black),
+                                            backgroundColor:
+                                                MaterialStateProperty
+                                                    .resolveWith((states) =>
+                                                        states.contains(
+                                                                MaterialState
+                                                                    .hovered)
+                                                            ? Colors.black
+                                                            : Colors.white)),
+                                        onPressed: () {},
+                                        child: Text("ADD")),
+                                  ],
+                                ),
                               ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              )),
+                )),
         ]);
   }
 
@@ -132,18 +158,6 @@ class _DetailsCardState extends State<DetailsCard> {
         fit: BoxFit.contain,
       ),
       clipBehavior: Clip.antiAliasWithSaveLayer,
-      insetPadding: EdgeInsets.symmetric(
-        vertical: size.height / 10,
-        horizontal: size.width /
-            (size.width <= 1200 ?
-              (size.width <= 1000 ?
-                (size.width <= 800 ?
-                      (size.width <= 450 ? 4
-                      : 3.5)
-                    : 3)
-                  : 2.8)
-                : 2.6),
-      ),
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
@@ -155,11 +169,15 @@ class _DetailsCardState extends State<DetailsCard> {
           ),
           Padding(
             padding: EdgeInsets.only(top: 8.0),
-            child: Text(
-              "Your appointment will start with a consultation. Next, primer, foundation, concealer, powder, bronzer, blush, eyeliner, eye-shadow, mascara, and lipstick/gloss will be applied. PRIV a natural day look, distinguished lip or a smokey eye! Please note, false lashes not included.",
-              style: TextStyle(fontFamily: 'roboto', color: Colors.grey),
-              textAlign: TextAlign.left,
-              softWrap: true,
+            child: SizedBox(
+              width: 150,
+              child: Text(
+                "Your appointment will start with a consultation. Next, primer, foundation, concealer, powder, bronzer, blush, eyeliner, eye-shadow, mascara, and lipstick/gloss will be applied. PRIV a natural day look, distinguished lip or a smokey eye! Please note, false lashes not included.",
+
+                style: TextStyle(fontFamily: 'roboto', color: Colors.grey),
+                textAlign: TextAlign.left,
+                // softWrap: true,
+              ),
             ),
           )
         ],
@@ -184,7 +202,6 @@ class _DetailsCardState extends State<DetailsCard> {
                 )),
             Spacer(),
             Container(
-              width: size.width / 15,
               decoration: BoxDecoration(
                   border: Border.all(),
                   borderRadius: BorderRadius.circular(5.0)),
@@ -209,4 +226,51 @@ class _DetailsCardState extends State<DetailsCard> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
     );
   }
+
+  List<servicePrice> serviceData = [
+    servicePrice(
+        'STAINLESS STEEL 3MM CUBIC ZIRCONIA',
+        'Includes 2 piercing earrings. Your appointment will start with a consultation and instructions to care for your newly pierced ears. Next, your professional will cleanse your ears, mark the ears with your desired placement and proceed with piercing your ears. Aftercare product will be provided to you as well as the aftercare instructions to ensure a healthy healing. PRIV it and you will walk away with a stylish new look!',
+        75),
+    servicePrice(
+        'GOLD PLATED 3MM BALL',
+        'Includes 2 piercing earrings. Your appointment will start with a consultation and instructions to care for your newly pierced ears. Next, your professional will cleanse your ears, mark the ears with your desired placement and proceed with piercing your ears. Aftercare product will be provided to you as well as the aftercare instructions to ensure a healthy healing. PRIV it and you will walk away with a stylish new look!',
+        100),
+    servicePrice(
+        '14K WHITE GOLD & DIAMOND',
+        'Includes 2 piercing earrings. Your appointment will start with a consultation and instructions to care for your newly pierced ears. Next, your professional will cleanse your ears, mark the ears with your desired placement and proceed with piercing your ears. Aftercare product will be provided to you as well as the aftercare instructions to ensure a healthy healing. PRIV it and you will walk away with a stylish new look!',
+        125),
+    servicePrice(
+        'STAINLESS STEEL 3MM CUBIC ZIRCONIA',
+        'Includes 2 piercing earrings. Your appointment will start with a consultation and instructions to care for your newly pierced ears. Next, your professional will cleanse your ears, mark the ears with your desired placement and proceed with piercing your ears. Aftercare product will be provided to you as well as the aftercare instructions to ensure a healthy healing. PRIV it and you will walk away with a stylish new look!',
+        75),
+    servicePrice(
+        'GOLD PLATED 3MM BALL',
+        'Includes 2 piercing earrings. Your appointment will start with a consultation and instructions to care for your newly pierced ears. Next, your professional will cleanse your ears, mark the ears with your desired placement and proceed with piercing your ears. Aftercare product will be provided to you as well as the aftercare instructions to ensure a healthy healing. PRIV it and you will walk away with a stylish new look!',
+        100),
+    servicePrice(
+        '14K WHITE GOLD & DIAMOND',
+        'Includes 2 piercing earrings. Your appointment will start with a consultation and instructions to care for your newly pierced ears. Next, your professional will cleanse your ears, mark the ears with your desired placement and proceed with piercing your ears. Aftercare product will be provided to you as well as the aftercare instructions to ensure a healthy healing. PRIV it and you will walk away with a stylish new look!',
+        125),
+    servicePrice(
+        'STAINLESS STEEL 3MM CUBIC ZIRCONIA',
+        'Includes 2 piercing earrings. Your appointment will start with a consultation and instructions to care for your newly pierced ears. Next, your professional will cleanse your ears, mark the ears with your desired placement and proceed with piercing your ears. Aftercare product will be provided to you as well as the aftercare instructions to ensure a healthy healing. PRIV it and you will walk away with a stylish new look!',
+        75),
+    servicePrice(
+        'GOLD PLATED 3MM BALL',
+        'Includes 2 piercing earrings. Your appointment will start with a consultation and instructions to care for your newly pierced ears. Next, your professional will cleanse your ears, mark the ears with your desired placement and proceed with piercing your ears. Aftercare product will be provided to you as well as the aftercare instructions to ensure a healthy healing. PRIV it and you will walk away with a stylish new look!',
+        100),
+    servicePrice(
+        '14K WHITE GOLD & DIAMOND',
+        'Includes 2 piercing earrings. Your appointment will start with a consultation and instructions to care for your newly pierced ears. Next, your professional will cleanse your ears, mark the ears with your desired placement and proceed with piercing your ears. Aftercare product will be provided to you as well as the aftercare instructions to ensure a healthy healing. PRIV it and you will walk away with a stylish new look!',
+        125),
+  ];
+}
+
+class servicePrice {
+  servicePrice(this.cardTitle, this.cardText, this.price);
+
+  final String cardTitle;
+  final String cardText;
+  final int price;
 }

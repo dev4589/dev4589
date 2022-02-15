@@ -16,7 +16,7 @@ class ShowServiceDetails extends StatefulWidget {
 
 class _ShowServiceDetailsState extends State<ShowServiceDetails>
     with TickerProviderStateMixin {
-  late List<Tab> myTabNo;
+  late List<Tab> myTabName;
   var radius = const Radius.circular(125);
   late TabController _tabController;
   late List<CateData> _cateList;
@@ -28,12 +28,14 @@ class _ShowServiceDetailsState extends State<ShowServiceDetails>
   void initState() {
     // TODO: implement initState
     _cateList = getCateData();
-    myTabNo = _cateList[widget.cateNo]
+
+    myTabName = _cateList[widget.cateNo]
         .subCateList
         .map((e) => Tab(
               text: e,
             ))
         .toList();
+
     _tabController = TabController(
         length: _cateList[widget.cateNo].subCateList.length, vsync: this);
     super.initState();
@@ -128,7 +130,7 @@ class _ShowServiceDetailsState extends State<ShowServiceDetails>
                           unselectedLabelColor: Colors.grey.shade500,
                           labelColor: Colors.white,
                           controller: _tabController,
-                          tabs: myTabNo,
+                          tabs: myTabName,
                           indicator: ShapeDecoration(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.all(radius)),
@@ -146,8 +148,12 @@ class _ShowServiceDetailsState extends State<ShowServiceDetails>
                         child: TabBarView(
                           controller: _tabController,
                           children: [
-                            for (int i = 0; i < myTabNo.length; i++)
-                              ListView(children: [DetailsCard()]),
+                            for (int i = 0; i < myTabName.length; i++)
+                              ListView(children: [
+                                DetailsCard(
+                                  subCateTitle: myTabName[i].text.toString(),
+                                )
+                              ]),
                           ],
                         ),
                       ),
@@ -159,7 +165,7 @@ class _ShowServiceDetailsState extends State<ShowServiceDetails>
           ],
         ),
         Padding(
-          padding: const EdgeInsets.only(right: 15.0,bottom: 100),
+          padding: const EdgeInsets.only(right: 15.0, bottom: 100),
           child: Align(
             alignment: Alignment.bottomRight,
             child: Container(
@@ -200,15 +206,15 @@ class _ShowServiceDetailsState extends State<ShowServiceDetails>
                           submitHover = value;
                         },
                         style: ButtonStyle(
-                            shape:
-                                MaterialStateProperty.all<RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(0.0))),
+                            shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(0.0))),
                             backgroundColor: MaterialStateProperty.resolveWith(
-                                (states) => states.contains(MaterialState.hovered)
-                                    ? Color.fromARGB(255, 145, 120, 150)
-                                    : Colors.black)),
+                                (states) =>
+                                    states.contains(MaterialState.hovered)
+                                        ? Color.fromARGB(255, 145, 120, 150)
+                                        : Colors.black)),
                         child: Text(
                           "GO TO CHECKOUT",
                           textAlign: TextAlign.center,
