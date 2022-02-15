@@ -20,6 +20,9 @@ class _ShowServiceDetailsState extends State<ShowServiceDetails>
   var radius = const Radius.circular(125);
   late TabController _tabController;
   late List<CateData> _cateList;
+  var noOfService = "1 Service";
+  var price = "75";
+  late bool submitHover = false;
 
   @override
   void initState() {
@@ -42,116 +45,184 @@ class _ShowServiceDetailsState extends State<ShowServiceDetails>
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: ResponsiveGridRow(
-        children: [
-          ResponsiveGridCol(
-            xl: 0,
-            xs: 0,
-            md: 0,
-            lg: 0,
-            sm: 0,
-            child: Stack(children: [
-              Container(
-                width: size.width * (size.width <= 1100 ? 0 : .20),
-                height: size.height,
-                alignment: Alignment.centerLeft,
-                child: Image.asset(
-                  'assets/myImages/' + _cateList[index].cateImage,
+      body: Stack(children: [
+        ResponsiveGridRow(
+          children: [
+            ResponsiveGridCol(
+              xl: 0,
+              xs: 0,
+              md: 0,
+              lg: 0,
+              sm: 0,
+              child: Stack(children: [
+                Container(
+                  width: size.width * (size.width <= 1100 ? 0 : .20),
                   height: size.height,
-                  width: 400,
-                  fit: BoxFit.cover,
+                  alignment: Alignment.centerLeft,
+                  child: Image.asset(
+                    'assets/myImages/' + _cateList[index].cateImage,
+                    height: size.height,
+                    width: 400,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-            ]),
-          ),
-          ResponsiveGridCol(
-            child: SizedBox(
-              width: size.width,
-              height: size.height,
-              child: ListView(
-                children: [
-                  Stack(
-                    children: [
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20.0,left: 100),
-                            child: IconButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              hoverColor: Colors.white,
-                              icon: const Icon(
-                                Icons.arrow_back_ios_outlined,
-                                size: 40,
+              ]),
+            ),
+            ResponsiveGridCol(
+              child: SizedBox(
+                width: size.width,
+                height: size.height,
+                child: ListView(
+                  children: [
+                    Stack(
+                      children: [
+                        Row(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 20.0, left: 100),
+                              child: IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                hoverColor: Colors.white,
+                                icon: const Icon(
+                                  Icons.arrow_back_ios_outlined,
+                                  size: 40,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20),
-                            child: Text(
-                              _cateList[index].cateName.toUpperCase() +
-                                  ' services'.toUpperCase(),
-                              style: GoogleFonts.roboto(
-                                  letterSpacing: 2,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 30),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Text(
+                                _cateList[index].cateName.toUpperCase() +
+                                    ' services'.toUpperCase(),
+                                style: GoogleFonts.roboto(
+                                    letterSpacing: 2,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 30),
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Center(
-                    child: Text(
-                      'Add as many services as you\'d like.',
-                      style: GoogleFonts.roboto(
-                          fontWeight: FontWeight.w300, fontSize: 12),
+                          ],
+                        ),
+                      ],
                     ),
-                  ),
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: TabBar(
-                        padding: const EdgeInsets.all(12),
-                        isScrollable: true,
-                        unselectedLabelColor: Colors.grey.shade500,
-                        labelColor: Colors.white,
-                        controller: _tabController,
-                        tabs: myTabNo,
-                        indicator: ShapeDecoration(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(radius)),
-                            color: Colors.black87),
+                    Center(
+                      child: Text(
+                        'Add as many services as you\'d like.',
+                        style: GoogleFonts.roboto(
+                            fontWeight: FontWeight.w300, fontSize: 12),
                       ),
                     ),
-                  ),
-                  Divider(),
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: TabBar(
+                          padding: const EdgeInsets.all(12),
+                          isScrollable: true,
+                          unselectedLabelColor: Colors.grey.shade500,
+                          labelColor: Colors.white,
+                          controller: _tabController,
+                          tabs: myTabNo,
+                          indicator: ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(radius)),
+                              color: Colors.black87),
+                        ),
+                      ),
+                    ),
+                    Divider(),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: size.width * 0.10),
+                      child: SizedBox(
+                        width: size.width / 2,
+                        height: size.height * .70,
+                        child: TabBarView(
+                          controller: _tabController,
+                          children: [
+                            for (int i = 0; i < myTabNo.length; i++)
+                              ListView(children: [DetailsCard()]),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 15.0,bottom: 100),
+          child: Align(
+            alignment: Alignment.bottomRight,
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                  border: Border.all(color: Colors.black)),
+              height: 120,
+              width: 350,
+              child: Column(
+                children: [
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: size.width*0.10),
-                    child: SizedBox(
-                      width: size.width / 2,
-                      height: size.height * .70,
-                      child: TabBarView(
-                        controller: _tabController,
-                        children: [
-                          for (int i = 0; i < myTabNo.length; i++)
-                            ListView(children: [DetailsCard()]),
-                        ],
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      noOfService + " - " "\$" + price,
+                      style: TextStyle(fontFamily: 'roboto'),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                    child: InkWell(
+                      onTap: () {},
+                      child: Text(
+                        "EDIT",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'roboto',
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: 59,
+                    width: 350,
+                    child: TextButton(
+                        onPressed: () {},
+                        onHover: (value) {
+                          submitHover = value;
+                        },
+                        style: ButtonStyle(
+                            shape:
+                                MaterialStateProperty.all<RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(0.0))),
+                            backgroundColor: MaterialStateProperty.resolveWith(
+                                (states) => states.contains(MaterialState.hovered)
+                                    ? Color.fromARGB(255, 145, 120, 150)
+                                    : Colors.black)),
+                        child: Text(
+                          "GO TO CHECKOUT",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'roboto',
+                          ),
+                        )),
+                  )
                 ],
               ),
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ]),
     );
   }
 
@@ -186,4 +257,3 @@ class CateData {
   final String cateImage;
   final List subCateList;
 }
-

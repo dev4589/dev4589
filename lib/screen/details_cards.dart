@@ -189,7 +189,9 @@ class _DetailsCardState extends State<DetailsCard> {
                   border: Border.all(),
                   borderRadius: BorderRadius.circular(5.0)),
               child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+
+                  },
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
