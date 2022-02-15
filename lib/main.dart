@@ -5,8 +5,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:saloon/screen/homepage.dart';
 import 'package:saloon/screen/show_services.dart';
 import 'package:saloon/screen/signup_page.dart';
-import 'package:saloon/screen/splashscreen.dart';
-import 'package:saloon/screen/view_service.dart';
+
 import 'screen/rough.dart';
 import 'screen/service_details.dart';
 
