@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,12 +23,15 @@ class _ShowServiceDetailsState extends State<ShowServiceDetails>
   var price = "75";
   late bool submitHover = false;
   late List<bool> isHover;
-  // late bool submitHover = false;
+  late List<int> countService;
+  late bool _isCartVisible= true;
+  late List<Map> cartAddition;
 
   @override
   void initState() {
     // TODO: implement initState
     isHover = List<bool>.generate(serviceData.length, (index) => false);
+    countService=List<int>.generate(serviceData.length, (index) => 0);
     _cateList = getCateData();
 
     myTabName = _cateList[widget.cateNo]
@@ -173,6 +174,8 @@ class _ShowServiceDetailsState extends State<ShowServiceDetails>
                                         ),
                                       ),
                                       for (int i = 0; i < serviceData.length; i++)
+
+                                        // Shows cards
                                         ResponsiveGridCol(
                                             xl: 4,
                                             lg: 4,
@@ -263,7 +266,10 @@ class _ShowServiceDetailsState extends State<ShowServiceDetails>
                                                                                 .hovered)
                                                                             ? Colors.black
                                                                             : Colors.white)),
-                                                                    onPressed: () {},
+                                                                    onPressed: () {
+                                                                      _isCartVisible=true;
+                                                                      cartAddition.add({'count':countService[i]++,'product':serviceData[i].cardTitle});
+                                                                    },
                                                                     child: Text("ADD")),
                                                               ],
                                                             ),
@@ -287,66 +293,79 @@ class _ShowServiceDetailsState extends State<ShowServiceDetails>
             )
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.only(right: 15.0, bottom: 100),
-          child: Align(
-            alignment: Alignment.bottomRight,
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  border: Border.all(color: Colors.black)),
-              height: 120,
-              width: 350,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      noOfService + " - " "\$" + price,
-                      style: TextStyle(fontFamily: 'roboto'),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-                    child: InkWell(
-                      onTap: () {},
+
+
+        // Cart
+        Visibility(
+          visible: _isCartVisible,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 15.0, bottom: 100),
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: Container(
+                decoration: BoxDecoration(
+
+                  boxShadow: [
+                    BoxShadow(color: Colors.grey,
+                        blurRadius: 8,
+                        spreadRadius: 4,
+                    )
+                  ],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                    border: Border.all(color: Colors.black)),
+                height: 120,
+                width: 350,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
-                        "EDIT",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'roboto',
-                            fontWeight: FontWeight.bold),
+                        noOfService + " - " "\$" + price,
+                        style: TextStyle(fontFamily: 'roboto'),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 59,
-                    width: 350,
-                    child: TextButton(
-                        onPressed: () {},
-                        onHover: (value) {
-                          submitHover = value;
-                        },
-                        style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(0.0))),
-                            backgroundColor: MaterialStateProperty.resolveWith(
-                                (states) =>
-                                    states.contains(MaterialState.hovered)
-                                        ? Color.fromARGB(255, 145, 120, 150)
-                                        : Colors.black)),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                      child: InkWell(
+                        onTap: () {},
                         child: Text(
-                          "GO TO CHECKOUT",
-                          textAlign: TextAlign.center,
+                          "EDIT",
                           style: TextStyle(
-                            fontFamily: 'roboto',
-                          ),
-                        )),
-                  )
-                ],
+                              fontSize: 16,
+                              fontFamily: 'roboto',
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 59,
+                      width: 350,
+                      child: TextButton(
+                          onPressed: () {},
+                          onHover: (value) {
+                            submitHover = value;
+                          },
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(0.0))),
+                              backgroundColor: MaterialStateProperty.resolveWith(
+                                  (states) =>
+                                      states.contains(MaterialState.hovered)
+                                          ? Color.fromARGB(255, 145, 120, 150)
+                                          : Colors.black)),
+                          child: Text(
+                            "GO TO CHECKOUT",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: 'roboto',
+                            ),
+                          )),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
@@ -355,8 +374,9 @@ class _ShowServiceDetailsState extends State<ShowServiceDetails>
     );
   }
 
+
+  // Pop up alert dialog
   Widget _buildPopupDialog(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
       title: Image.asset(
@@ -382,7 +402,6 @@ class _ShowServiceDetailsState extends State<ShowServiceDetails>
 
                 style: TextStyle(fontFamily: 'roboto', color: Colors.grey),
                 textAlign: TextAlign.left,
-                // softWrap: true,
               ),
             ),
           )
@@ -440,6 +459,7 @@ class _ShowServiceDetailsState extends State<ShowServiceDetails>
       CateData(2, 'Fitness', 'Fitness_Vertical.png', ['WORKOUT']),
       CateData(
           3, 'Hair', 'Blowout.png', ['BLOWOUT', 'ELITE BLOWOUT', 'HAIRCUT']),
+      CateData(4, 'Makeup', 'Makeup.png', ['MAKEUP', 'ELITE MAKEUP']),
       CateData(5, 'Massage.jpg', 'Massage.png', ['MASSAGE']),
       CateData(6, "Men's Grooming", "MG_Vertical.png", ["MEN'S GROOMING"]),
       CateData(7, 'Nails', 'Nail_Vertical.png', ['NAILS']),
@@ -450,7 +470,6 @@ class _ShowServiceDetailsState extends State<ShowServiceDetails>
         'ELITE BRIDAL MAKEUP',
         'ELITE BRIDAL HAIR'
       ]),
-      CateData(4, 'Makeup', 'Makeup.png', ['MAKEUP', 'ELITE MAKEUP']),
     ];
     return cateDataList;
   }
